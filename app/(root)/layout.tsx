@@ -1,6 +1,7 @@
 import { StreamVideoProvider } from "@/providers/StreamClientProvider";
+import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "ZOOM",
+  title: "YOOM",
   description: "Video & Audio calling app",
   icons: {
     icon: "/icons/logo.svg",
