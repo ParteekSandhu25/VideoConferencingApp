@@ -1,3 +1,4 @@
+"use client";
 import Loader from "@/components/Loader";
 import MeetingRoom from "@/components/MeetingRoom";
 import MeetingSetup from "@/components/MeetingSetup";
@@ -14,10 +15,14 @@ const Meeting = ({ params }: { params: { id: string } }) => {
   if (!isLoaded || isCallLoading) return <Loader />;
 
   return (
-    <div className="text-white text-2xl">
+    <div className="text-white text-2xl h-screen w-full">
       <StreamCall call={call}>
         <StreamTheme>
-          {!isSetupComplete ? <MeetingSetup /> : <MeetingRoom />}
+          {!isSetupComplete ? (
+            <MeetingSetup setIsSetupComplete={setIsSetupComplete} />
+          ) : (
+            <MeetingRoom />
+          )}
         </StreamTheme>
       </StreamCall>
     </div>
