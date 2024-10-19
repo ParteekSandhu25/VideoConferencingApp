@@ -7,10 +7,11 @@ import {
   CallStatsButton,
   PaginatedGridLayout,
   SpeakerLayout,
+  useCall,
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,6 +34,25 @@ const MeetingRoom = () => {
   const router = useRouter();
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
+  const call = useCall();
+
+  useEffect(() => {
+    if (!call) return;
+
+    const handleCallEnded = () => {
+      toast({
+        title: "Call Ended",
+        description: "The call has been ended by the host.",
+      });
+      router.push("/");
+    };
+
+    call.on("call.ended", handleCallEnded);
+
+    return () => {
+      call.off("call.ended", handleCallEnded);
+    };
+  }, [call, router]);
 
   if (callingState !== CallingState.JOINED) return <Loader />;
 
